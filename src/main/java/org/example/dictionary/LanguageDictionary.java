@@ -5,15 +5,9 @@ import java.util.Map;
 
 public abstract class LanguageDictionary implements Dictionary {
     protected Map<String, String> entries;
-    protected String filePath;
 
     public LanguageDictionary() {
         this.entries = new HashMap<>();
-    }
-
-    @Override
-    public void loadFromFile(String filePath) {
-        this.filePath = filePath;
     }
 
     @Override
@@ -41,7 +35,9 @@ public abstract class LanguageDictionary implements Dictionary {
     }
 
     @Override
-    public void saveToFile(String filePath) {}
+    public String getDictionaryType() {
+        return "Base Dictionary";
+    }
 
     protected abstract boolean isValidKey(String key);
 }

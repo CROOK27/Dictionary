@@ -7,7 +7,6 @@ public class FourLetterDictionary extends LanguageDictionary {
         if (key == null || key.length() != 4) {
             return false;
         }
-        // Проверяем, что все символы - латинские буквы
         return key.matches("[a-zA-Z]{4}");
     }
 

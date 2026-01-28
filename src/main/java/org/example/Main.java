@@ -17,11 +17,23 @@ public class Main {
     private static Dictionary fiveDigitDict;
     private static Scanner scanner;
 
-    private static final String FOUR_LETTER_FILE = "dictionaries/four_letter_dict.txt";
-    private static final String FIVE_DIGIT_FILE = "dictionaries/five_digit_dict.txt";
+    private static String FOUR_LETTER_FILE;
+    private static String FIVE_DIGIT_FILE;
 
     public static void main(String[] args) {
         scanner = new Scanner(System.in);
+
+        System.out.println("=== ДИКТОРСЕРВИС ===");
+        System.out.println("Введите пути к файлам словарей");
+        System.out.println("=============================\n");
+
+        getFilePathsFromUser();
+
+        System.out.println("\n=== ПУТИ К ФАЙЛАМ ===");
+        System.out.println("Словарь 1 (4 буквы): " + FOUR_LETTER_FILE);
+        System.out.println("Словарь 2 (5 цифр):  " + FIVE_DIGIT_FILE);
+        System.out.println("=====================\n");
+
 
         fourLetterDict = DictionaryFactory.createDictionary(1);
         fiveDigitDict = DictionaryFactory.createDictionary(2);
@@ -50,6 +62,36 @@ public class Main {
         System.out.println("Программа завершена.");
     }
 
+    private static void getFilePathsFromUser() {
+        scanner.nextLine();
+
+        System.out.println("Примеры путей:");
+        System.out.println("1. C:\\Users\\Имя\\dictionaries\\four_letter_dict.txt");
+        System.out.println("2. /home/user/dictionaries/four_letter_dict.txt");
+        System.out.println("3. dictionaries/four_letter_dict.txt (относительный путь)");
+        System.out.println();
+
+        while (true) {
+            System.out.print("Введите путь к файлу для словаря с 4-буквенными ключами: ");
+            FOUR_LETTER_FILE = scanner.nextLine().trim();
+
+            if (!FOUR_LETTER_FILE.isEmpty()) {
+                break;
+            }
+            System.out.println("Путь не может быть пустым. Попробуйте снова.");
+        }
+
+        while (true) {
+            System.out.print("Введите путь к файлу для словаря с 5-цифровыми ключами: ");
+            FIVE_DIGIT_FILE = scanner.nextLine().trim();
+
+            if (!FIVE_DIGIT_FILE.isEmpty()) {
+                break;
+            }
+            System.out.println("Путь не может быть пустым. Попробуйте снова.");
+        }
+    }
+
     private static void loadDictionary(Dictionary dictionary, String filePath, String dictName) {
         System.out.println("\n=== Загрузка " + dictName + " словаря ===");
 
@@ -72,9 +114,11 @@ public class Main {
 
     private static void viewAllDictionaries() {
         System.out.println("\n=== СЛОВАРЬ 1 (4 латинские буквы) ===");
+        System.out.println("Файл: " + FOUR_LETTER_FILE);
         printDictionary(fourLetterDict);
 
         System.out.println("\n=== СЛОВАРЬ 2 (5 цифр) ===");
+        System.out.println("Файл: " + FIVE_DIGIT_FILE);
         printDictionary(fiveDigitDict);
     }
 
@@ -91,9 +135,11 @@ public class Main {
     private static void workWithDictionary() {
         System.out.println("\nВыберите словарь:");
         System.out.println("1. Словарь с 4-буквенными ключами (латиница)");
+        System.out.println("   Файл: " + FOUR_LETTER_FILE);
         System.out.println("2. Словарь с 5-цифровыми ключами");
+        System.out.println("   Файл: " + FIVE_DIGIT_FILE);
 
-        int dictChoice = getIntInput("Ваш выбор: ");
+        int dictChoice = getIntInput("\nВаш выбор: ");
 
         if (dictChoice == 1) {
             dictionaryOperations(fourLetterDict, FOUR_LETTER_FILE);
@@ -109,6 +155,7 @@ public class Main {
 
         while (inDictionaryMenu) {
             System.out.println("\n=== ОПЕРАЦИИ СО СЛОВАРЕМ ===");
+            System.out.println("Файл: " + filePath);
             System.out.println("1. Просмотреть словарь");
             System.out.println("2. Добавить запись");
             System.out.println("3. Удалить запись по ключу");
@@ -124,7 +171,6 @@ public class Main {
                 case 4 -> searchEntry(dictionary);
                 case 5 -> {
                     inDictionaryMenu = false;
-                    // Сохраняем при выходе
                     FileDictionaryStorage.saveDictionaryToFile(dictionary, filePath);
                 }
                 default -> System.out.println("Неверный выбор.");
@@ -180,6 +226,11 @@ public class Main {
     }
 
     private static void saveAllDictionaries() {
+        System.out.println("\n=== СОХРАНЕНИЕ ФАЙЛОВ ===");
+        System.out.println("Сохраняю в файлы:");
+        System.out.println("1. " + FOUR_LETTER_FILE);
+        System.out.println("2. " + FIVE_DIGIT_FILE);
+
         FileDictionaryStorage.saveDictionaryToFile(fourLetterDict, FOUR_LETTER_FILE);
         FileDictionaryStorage.saveDictionaryToFile(fiveDigitDict, FIVE_DIGIT_FILE);
         System.out.println("Все словари сохранены.");

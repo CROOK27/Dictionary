@@ -7,7 +7,6 @@ public class FiveDigitDictionary extends LanguageDictionary {
         if (key == null || key.length() != 5) {
             return false;
         }
-        // Проверяем, что все символы - цифры
         return key.matches("\\d{5}");
     }
 
