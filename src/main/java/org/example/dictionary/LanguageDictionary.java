@@ -1,10 +1,17 @@
 package org.example.dictionary;
 
+import org.springframework.beans.factory.annotation.Value;
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class LanguageDictionary implements Dictionary {
     protected Map<String, String> entries;
+
+    @Value("${dictionary.name:Default Dictionary}")
+    private String dictionaryName;
+
+    @Value("${dictionary.capacity:100}")
+    private int capacity;
 
     public LanguageDictionary() {
         this.entries = new HashMap<>();
@@ -36,8 +43,16 @@ public abstract class LanguageDictionary implements Dictionary {
 
     @Override
     public String getDictionaryType() {
-        return "Base Dictionary";
+        return "Base Dictionary: " + dictionaryName;
     }
 
     protected abstract boolean isValidKey(String key);
+
+    public void init() {
+        System.out.println("Initializing dictionary: " + dictionaryName + " with capacity: " + capacity);
+    }
+
+    public void destroy() {
+        System.out.println("Cleaning up dictionary: " + dictionaryName);
+    }
 }

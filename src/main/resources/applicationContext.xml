@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/>
+
+    <bean id="fourLetterDictionary"
+          class="org.example.dictionary.FourLetterDictionary"
+          init-method="init"
+          destroy-method="destroy">
+    </bean>
+
+    <bean id="fiveDigitDictionary"
+          class="org.example.dictionary.FiveDigitDictionary"
+          init-method="init"
+          destroy-method="destroy">
+    </bean>
+
+    <bean id="fourLetterDictionaryService"
+          class="org.example.service.DictionaryService">
+        <property name="dictionary" ref="fourLetterDictionary"/>
+    </bean>
+
+    <bean id="fiveDigitDictionaryService"
+          class="org.example.service.DictionaryService">
+        <property name="dictionary" ref="fiveDigitDictionary"/>
+    </bean>
+
+    <bean id="dictionaryManager"
+          class="org.example.service.DictionaryManager"/>
+
+    <bean id="dictionaryValidator"
+          class="org.example.dictionary.DictionaryValidator"/>
+
+</beans>

@@ -1,7 +1,6 @@
 package org.example.dictionary;
 
 public class FourLetterDictionary extends LanguageDictionary {
-
     @Override
     protected boolean isValidKey(String key) {
         if (key == null || key.length() != 4) {
