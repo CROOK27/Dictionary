@@ -1,20 +1,23 @@
 package org.example.dictionary;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
+
+@Data
+@NoArgsConstructor
+@Component
 public class DictionaryValidator {
+    private int minWordLength = 1;
+    private int maxWordLength = 50;
 
-    public static boolean validateFourLetterKey(String key) {
-        return key != null && key.length() == 4 && key.matches("[a-zA-Z]{4}");
+    public boolean validateWord(String word) {
+        return word != null &&
+                word.length() >= minWordLength &&
+                word.length() <= maxWordLength;
     }
 
-    public static boolean validateFiveDigitKey(String key) {
-        return key != null && key.length() == 5 && key.matches("\\d{5}");
-    }
-
-    public static String getValidationRules(int dictionaryType) {
-        return switch (dictionaryType) {
-            case 1 -> "Ключ должен содержать 4 латинские буквы (например: 'word', 'test')";
-            case 2 -> "Ключ должен содержать 5 цифр (например: '12345', '98765')";
-            default -> "Неизвестный тип словаря";
-        };
+    public boolean validateDictionaryPair(Object dict1, Object dict2) {
+        return dict1 != null && dict2 != null;
     }
 }

@@ -2,39 +2,70 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context.xsd">
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/data/jpa
+       http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
     <context:annotation-config/>
+    <context:component-scan base-package="org.example"/>
 
-    <bean id="fourLetterDictionary"
-          class="org.example.dictionary.FourLetterDictionary"
-          init-method="init"
-          destroy-method="destroy">
+    <!-- Загружаем .env файл -->
+    <context:property-placeholder location="classpath:.env" ignore-resource-not-found="true"/>
+
+    <!-- DataSource для PostgreSQL с параметрами из .env -->
+    <bean id="dataSource"
+          class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="${DB_DRIVER:org.postgresql.Driver}" />
+        <property name="url" value="${DB_URL:jdbc:postgresql://localhost:5432/dictionary_db}" />
+        <property name="username" value="${DB_USERNAME:postgres}" />
+        <property name="password" value="${DB_PASSWORD:postgres}" />
+        <property name="initialSize" value="${DB_INITIAL_SIZE:5}" />
+        <property name="maxActive" value="${DB_MAX_ACTIVE:10}" />
+        <property name="maxIdle" value="${DB_MAX_IDLE:5}" />
+        <property name="minIdle" value="${DB_MIN_IDLE:2}" />
+        <property name="removeAbandoned" value="true" />
+        <property name="removeAbandonedTimeout" value="60" />
+        <property name="logAbandoned" value="true" />
+        <property name="validationQuery" value="SELECT 1" />
+        <property name="testOnBorrow" value="true" />
     </bean>
 
-    <bean id="fiveDigitDictionary"
-          class="org.example.dictionary.FiveDigitDictionary"
-          init-method="init"
-          destroy-method="destroy">
+    <!-- EntityManagerFactory -->
+    <bean id="entityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="packagesToScan" value="org.example.dictionary, org.example.translation" />
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="databasePlatform" value="org.hibernate.dialect.PostgreSQLDialect" />
+                <property name="showSql" value="true" />
+                <property name="generateDdl" value="true" />
+            </bean>
+        </property>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.format_sql">true</prop>
+            </props>
+        </property>
     </bean>
 
-    <bean id="fourLetterDictionaryService"
-          class="org.example.service.DictionaryService">
-        <property name="dictionary" ref="fourLetterDictionary"/>
+    <!-- Transaction Manager -->
+    <bean id="transactionManager"
+          class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
 
-    <bean id="fiveDigitDictionaryService"
-          class="org.example.service.DictionaryService">
-        <property name="dictionary" ref="fiveDigitDictionary"/>
-    </bean>
-
-    <bean id="dictionaryManager"
-          class="org.example.service.DictionaryManager"/>
-
-    <bean id="dictionaryValidator"
-          class="org.example.dictionary.DictionaryValidator"/>
+    <tx:annotation-driven transaction-manager="transactionManager" />
+    <jpa:repositories base-package="org.example.dictionary" />
+    <jpa:repositories base-package="org.example.translation" />
 
 </beans>

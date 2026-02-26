@@ -1,0 +1,160 @@
+.nav-link.active {
+  font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.dictionary-section {
+  margin-bottom: 20px;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.dictionary-header {
+  background-color: #f8f9fa;
+  padding: 15px 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #dee2e6;
+  transition: background-color 0.2s;
+}
+
+.dictionary-header:hover {
+  background-color: #e9ecef;
+}
+
+.dictionary-content {
+  padding: 20px;
+  display: none;
+}
+
+.dictionary-content.expanded {
+  display: block;
+}
+
+.chevron-icon {
+  transition: transform 0.3s;
+}
+
+.chevron-icon.expanded {
+  transform: rotate(90deg);
+}
+
+.search-box {
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  border: 1px solid #dee2e6;
+}
+
+.entry-item {
+  padding: 15px;
+  margin-bottom: 10px;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  transition: all 0.2s;
+}
+
+.entry-item:hover {
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+
+.translation-badge {
+  background-color: #e3f2fd;
+  padding: 4px 10px;
+  border-radius: 16px;
+  margin-right: 8px;
+  margin-bottom: 4px;
+  display: inline-block;
+  font-size: 0.85em;
+  color: #1976d2;
+  border: 1px solid #bbdefb;
+}
+
+.btn-icon {
+  margin: 0 8px;
+  cursor: pointer;
+  font-size: 1.2em;
+  transition: all 0.2s;
+}
+
+.btn-icon:hover {
+  transform: scale(1.1);
+}
+
+.btn-icon.text-primary:hover {
+  color: #0b5ed7 !important;
+}
+
+.btn-icon.text-danger:hover {
+  color: #bb2d3b !important;
+}
+
+.edit-form {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  margin-top: 10px;
+  border: 1px solid #dee2e6;
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #6c757d;
+  font-style: italic;
+}
+
+.count-badge {
+  background-color: #0d6efd;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.9em;
+}
+
+.translations-list {
+  margin-top: 8px;
+  padding-left: 20px;
+  border-left: 3px solid #dee2e6;
+}
+
+.translation-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  margin: 4px 0;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}
+
+.modal-translation-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  margin: 4px 0;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}

@@ -1,17 +1,24 @@
 package org.example;
 
-import org.example.service.DictionaryManager;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import io.github.cdimascio.dotenv.Dotenv;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+@SpringBootApplication
+@EntityScan(basePackages = {"org.example.dictionary", "org.example.translation"})
+@EnableJpaRepositories(basePackages = {"org.example.dictionary", "org.example.translation"})
 public class Main {
     public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        Dotenv dotenv = Dotenv.configure()
+                .ignoreIfMissing()
+                .load();
 
-        DictionaryManager dictionaryManager = context.getBean("dictionaryManager", DictionaryManager.class);
+        dotenv.entries().forEach(entry -> {
+            System.setProperty(entry.getKey(), entry.getValue());
+        });
 
-        dictionaryManager.start();
-
-        ((ClassPathXmlApplicationContext) context).close();
+        SpringApplication.run(Main.class, args);
     }
 }

@@ -1,4 +1,4 @@
-package org.example.dictionary;
+package org.example.dictionary.fourletterdictionary;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,10 +22,9 @@ public class FourLetterDictionary {
     @Column(name = "four_letter_dictionary_id")
     private UUID id;
 
-    @Column(name = "word")
+    @Column(name = "word", nullable = false, unique = true)
     private String word;
 
-    @OneToMany(mappedBy = "four_letter_dictionary")
+    @OneToMany(mappedBy = "fourLetterDictionary", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Translation> translations;
-
 }
